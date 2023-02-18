@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
+import 'pages/page_principale.dart';
+import 'package:camera/camera.dart';
 
-void main() {
+List<CameraDescription> cameras = [];
+
+Future<void> main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    debugPrint('Error in fetching the cameras: $e');
+  }
   runApp(const MainApp());
 }
 
@@ -9,12 +19,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      home: const PagePrincipale(),
+      theme: ThemeData(primarySwatch: Colors.orange),
     );
   }
 }
